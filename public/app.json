@@ -3,7 +3,7 @@
     "startup_app": {
         "name": "OpenfinPOC",
         "description": "OpenFin POC",
-        "url": "http://localhost:8080",
+        "url": "http://talk-demo-dcchuck-my-test.129.146.147.219.xip.io/",
         "uuid": "Talk-Demo-POC",
         "autoShow": true
     },
