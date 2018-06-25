@@ -14,8 +14,7 @@
     "shortcut": {
     },
     "buildInfo": {
-        "prod": "http://talk-demo-dcchuck-my-test.129.146.147.219.xip.io/",
-        "uat": "http://talk-demo-dcchuck-uat-my-test.129.146.147.219.xip.io/",
-        "adminConsole": "https://129.146.147.219:8443/"
+        "prod": "talk-demo-dcchuck",
+        "uat": "talk-demo-dcchuck-uat"
     }
 }

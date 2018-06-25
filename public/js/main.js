@@ -1,8 +1,4 @@
-/**
- * Here we will dynamically figure out if we're local or deployed to OpenShift. This should be part of the build process.
- */
 const envManifest = window.location.origin === 'http://localhost:8080' ? 'local' : 'app';
-
 
 let serviceProvider;
 

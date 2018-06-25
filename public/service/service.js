@@ -15,35 +15,38 @@ async function main() {
     const service = await fin.desktop.Service.register();
 
     service.onConnection((id) => {
+        console.log(id)
         console.log(`New Connection From App: ${id.uuid}`);
-        subscribeToBuilds(id.uuid);
+        subscribeToBuilds(id);
     });
 
     service.register('subscribeToUATBuilds', (payload, id) => {
         console.log(`Applicaton ${id.uuid} subscribed to UAT Build Updates`);
     });
+
+    const alertSocketConnection = new WebSocket('ws://openshift-ws-alerts-my-test.129.146.147.219.xip.io/');
+
+    alertSocketConnection.onmessage = (message) => {
+        const jsonResponse = JSON.parse(message.data);
+        service.dispatch(apps[jsonResponse.appName], 'new-build', message);
+    }
 }
 
 main().then(() => {
     console.log('Service Registered.');
 });
 
-async function subscribeToBuilds(uuid) {
+async function subscribeToBuilds(id) {
+    const uuid = id.uuid;
     if (!apps[uuid]) {
-        console.log(uuid)
         const appWithPendingBuilds = await fin.desktop.Application.wrap(uuid);
-        appWithPendingBuilds.addEventListener('closed', () => removeAppFromRegisteredApps(uuid));
-        appWithPendingBuilds.addEventListener('crashed', () => removeAppFromRegisteredApps(uuid));
+        // appWithPendingBuilds.addEventListener('closed', () => removeAppFromRegisteredApps(uuid));
+        // appWithPendingBuilds.addEventListener('crashed', () => removeAppFromRegisteredApps(uuid));
 
         appWithPendingBuilds.getManifest(manifest => {
-            console.log(manifest)
-            apps[uuid] = {
-                prod: manifest.buildInfo.prod,
-                uat: manifest.buildInfo.uat,
-                adminConsole: manifest.buildInfo.adminConsole
-            }
+            apps[manifest.buildInfo.prod] = id;
+            apps[manifest.buildInfo.uat] = id;
             console.log(apps);
-            launchTempAppIfNeeded(manifest.buildInfo.adminConsole);
         });
     } else {
         console.log('App already registered.')
@@ -51,42 +54,5 @@ async function subscribeToBuilds(uuid) {
 }
 
 function removeAppFromRegisteredApps(uuid) {
-    apps[uuid] = null;
-}
-
-async function launchTempAppIfNeeded(url) {
-    /**
-     * We're creating a temporary app so we can connect to the websocket. Temp solutions.
-     */
-    const allApps = await fin.System.getAllApplications();
-    const filteredApps = allApps.filter(el => el.uuid === url);
-    if (filteredApps.length === 0) {
-        const tempApp = await fin.Application.create({
-            name: url,
-            uuid: url,
-            url: url,
-            autoShow: true
-        })
-        await tempApp.run();
-        createWebSocketConnection(url);
-    } else {
-        console.log('Temp app already running.');
-    }
-}
-
-let websocketConnection;
-
-function createWebSocketConnection(url) {
-    const websocketUrl = url.replace('http', 'ws');
-    websocketConnection = new WebSocket(`${websocketUrl}oapi/v1/watch/namespaces/my-test/builds?access_token=${demoToken}`)
-    console.log(websocketConnection);
-    websocketConnection.onmessage = alertNewBuild;
-}
-
-function alertNewBuild(message) {
-    const messageData = JSON.parse(message.data);
-    const appName = messageData.object.metadata.labels.app;
-    if (messageData.object.status.phase === "Complete" && messageData.type === "MODIFIED") {
-        console.log(`New build complete - ${appName} New Version Available!`)
-    }
+    console.log('remove');
 }
