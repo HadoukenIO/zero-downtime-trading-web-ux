@@ -2,6 +2,14 @@ const envManifest = window.location.origin === 'http://localhost:8080' ? 'local'
 
 let serviceProvider;
 
+const thisWindow = fin.desktop.Window.getCurrent();
+
+thisWindow.addEventListener('close-requested', () => {
+    const redHatDemoServiceApp = fin.desktop.Application.wrap('RedHatDemoService');
+    redHatDemoServiceApp.close();
+    fin.desktop.Application.getCurrent().close(true);
+})
+
 async function connectToService() {
     /**
      * We'll first check if the service is running and launch it if not. As mentioned in the service javascript logic, this would be handled
@@ -21,7 +29,7 @@ async function connectToService() {
             name: 'RedHatDemoService',
             uuid: 'RedHatDemoService',
             url: `${window.location.origin}/service/`,
-            autoShow: true
+            autoShow: false
         });
         const nowApplications = await fin.System.getAllApplications();
         await serviceApp.run();
