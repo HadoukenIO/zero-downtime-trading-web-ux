@@ -27,8 +27,12 @@ async function main() {
     const alertSocketConnection = new WebSocket('ws://openshift-ws-alerts-my-test.129.146.147.219.xip.io/');
 
     alertSocketConnection.onmessage = (message) => {
+        console.log(message);
         const jsonResponse = JSON.parse(message.data);
-        service.dispatch(apps[jsonResponse.appName], 'new-build', message);
+        console.log(jsonResponse);
+        if (apps[jsonResponse.appName]) {
+            service.dispatch(apps[jsonResponse.appName], 'new-build', jsonResponse);
+        }
     }
 }
 

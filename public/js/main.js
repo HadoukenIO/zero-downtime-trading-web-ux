@@ -32,8 +32,19 @@ async function connectToService() {
 
     try {
         serviceProvider = await fin.desktop.Service.connect({ uuid: 'RedHatDemoService' });
-        serviceProvider.register('new-build', (x) => {
-            console.log(`New Build! ${x}`);
+        serviceProvider.register('new-build', (message) => {
+            console.log(`New Build! ${JSON.stringify(message)}`);
+            const newlyBuiltAppName = message.appName;
+            const thisApp = fin.desktop.Application.getCurrent();
+            thisApp.getManifest(manifest => {
+                if (newlyBuiltAppName === manifest.buildInfo.prod) {
+                    console.log('New Production Build of this Application is Available!');
+                    window.location.href = manifest.buildInfo.prodUrl;
+                } else if (newlyBuiltAppName === manifest.buildInfo.uat) {
+                    console.log('New UAT Build of this Application is Available!');
+                    window.location.href = manifest.buildInfo.uatUrl;
+                }
+            })
         })
     } catch (e) {
         console.log(`Connection error: ${e}`)
