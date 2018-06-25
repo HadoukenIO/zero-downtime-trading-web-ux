@@ -39,10 +39,50 @@ async function connectToService() {
             thisApp.getManifest(manifest => {
                 if (newlyBuiltAppName === manifest.buildInfo.prod) {
                     console.log('New Production Build of this Application is Available!');
-                    window.location.href = manifest.buildInfo.prodUrl;
+                    const prodWindow = new fin.desktop.Window({
+                        name: 'new-prod', 
+                        url: 'new-prod.html',
+                        frame: false
+                    }, () => {
+                        const thisWindow = fin.desktop.Window.getCurrent();
+                        thisWindow.getBounds(bounds => {
+                            console.log(`Bounds: ${JSON.stringify(bounds)}`);
+                            prodWindow.resizeTo(bounds.width, 35, 'top-left', () => { 
+                                prodWindow.showAt(bounds.left, bounds.bottom, 'false', () => {
+                                    console.log('joining group!')
+                                    thisWindow.joinGroup(prodWindow);
+                                }) 
+                            })
+                            // thisWindow.joinGroup(prodWindow, () => {
+                            //     prodWindow.resizeTo(bounds.width, 35, 'top-left', () => prodWindow.showAt(bounds.left, bounds.bottom))
+                            // });
+                        })
+                    }, (e) => {
+                        console.log(`Error creating window: ${e}`);
+                    });
+                    // window.location.href = manifest.buildInfo.prodUrl;
                 } else if (newlyBuiltAppName === manifest.buildInfo.uat) {
                     console.log('New UAT Build of this Application is Available!');
-                    window.location.href = manifest.buildInfo.uatUrl;
+                    const uatWindow = new fin.desktop.Window({
+                        name: 'new-uat', 
+                        url: 'new-uat.html',
+                        frame: false
+                    }, () => {
+                        const thisWindow = fin.desktop.Window.getCurrent();
+                        thisWindow.getBounds(bounds => {
+                            console.log(`Bounds: ${JSON.stringify(bounds)}`);
+                            uatWindow.resizeTo(bounds.width, 35, 'top-left', () => {
+                                uatWindow.showAt(bounds.left, bounds.bottom, 'false', () => {
+                                    thisWindow.joinGroup(uatWindow);
+                                })
+                            })
+                            // thisWindow.joinGroup(uatWindow, () => {
+                            //     uatWindow.resizeTo(bounds.width, 35, 'top-left', () => uatWindow.showAt(bounds.left, bounds.bottom))
+                            // });
+                        })
+                    }, (e) => {
+                        console.log(`Error creating window: ${e}`);
+                    });
                 }
             })
         })
@@ -54,3 +94,10 @@ async function connectToService() {
 }
 
 connectToService();
+
+function launchBuild(target) {
+    const thisApp = fin.desktop.Application.getCurrent();
+    thisApp.getManifest(m => {
+        window.location.href = m.buildInfo[target];
+    })
+}

@@ -3,8 +3,36 @@
     <head>
         <meta charset="utf-8">
         <title>TEMPLATE</title>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+            .update {
+                display: inline;
+            }
+
+            button {
+                float: right;
+                margin-left: 20px;
+            }
+        </style>
     </head>
     <body>
-        <div>New Production Build Available</div>
+        <div class='update'>New Production Build Available!</div>
+        <button id='launch'>Launch</button>
+        <button id='ignore'>Ignore</button>
+        <script>
+            const launchButton = document.getElementById('launch');
+            const ignoreButton = document.getElementById('ignore');
+
+            ignoreButton.onclick = () => {
+                fin.desktop.Window.getCurrent().close();
+            }
+
+            launchButton.onclick = () => {
+                window.opener.launchBuild('prodUrl');
+                fin.desktop.Window.getCurrent().close();
+            }
+        </script>
     </body>
 </html>

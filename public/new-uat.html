@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>TEMPLATE</title>
-    </head>
-    <body>
-        <div>New UAT Build Available</div>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <title>TEMPLATE</title>
+</head>
+
+<body>
+    <div class='update'>New UAT Build Available!</div>
+    <button id='launch'>Launch</button>
+    <button id='ignore'>Ignore</button>
+    <script>
+        const launchButton = document.getElementById('launch');
+        const ignoreButton = document.getElementById('ignore');
+
+        ignoreButton.onclick = () => {
+            fin.desktop.Window.getCurrent().close();
+        }
+
+        launchButton.onclick = () => {
+            window.opener.launchBuild('uatUrl');
+            fin.desktop.Window.getCurrent().close();
+        }
+    </script>
+</body>
+
 </html>
