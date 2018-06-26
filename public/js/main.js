@@ -50,7 +50,11 @@ async function connectToService() {
                     const prodWindow = new fin.desktop.Window({
                         name: 'new-prod',
                         url: 'new-prod.html',
-                        frame: false
+                        frame: false,
+                        cornerRounding: {
+                            height: 5,
+                            widht: 5
+                        }
                     }, () => {
                         const thisWindow = fin.desktop.Window.getCurrent();
                         thisWindow.getBounds(bounds => {
@@ -61,9 +65,6 @@ async function connectToService() {
                                     thisWindow.joinGroup(prodWindow);
                                 })
                             })
-                            // thisWindow.joinGroup(prodWindow, () => {
-                            //     prodWindow.resizeTo(bounds.width, 35, 'top-left', () => prodWindow.showAt(bounds.left, bounds.bottom))
-                            // });
                         })
                     }, (e) => {
                         console.log(`Error creating window: ${e}`);
@@ -74,7 +75,11 @@ async function connectToService() {
                     const uatWindow = new fin.desktop.Window({
                         name: 'new-uat',
                         url: 'new-uat.html',
-                        frame: false
+                        frame: false,
+                        cornerRounding: {
+                            height: 5,
+                            widht: 5
+                        }
                     }, () => {
                         const thisWindow = fin.desktop.Window.getCurrent();
                         thisWindow.getBounds(bounds => {
@@ -84,9 +89,6 @@ async function connectToService() {
                                     thisWindow.joinGroup(uatWindow);
                                 })
                             })
-                            // thisWindow.joinGroup(uatWindow, () => {
-                            //     uatWindow.resizeTo(bounds.width, 35, 'top-left', () => uatWindow.showAt(bounds.left, bounds.bottom))
-                            // });
                         })
                     }, (e) => {
                         console.log(`Error creating window: ${e}`);
@@ -110,6 +112,7 @@ function launchBuild(target) {
     })
 }
 
+// This data is freely available via the Quandl API
 const data = [
     ["Trade Date", "Index Value", "High", "Low", "Total Market Value", "Dividend Market Value"],
     ["2018-06-22", 1102.65, 1107.74, 1101.0, 2457988405.0, 0.0],
