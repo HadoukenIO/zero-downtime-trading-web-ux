@@ -114,7 +114,6 @@ function launchBuild(target) {
 
 // This data is freely available via the Quandl API
 const data = [
-    ["Trade Date", "Index Value", "High", "Low", "Total Market Value", "Dividend Market Value"],
     ["2018-06-22", 1102.65, 1107.74, 1101.0, 2457988405.0, 0.0],
     ["2018-06-21", 1104.22, 1115.73, 1103.01, 2461496963.0, 0.0],
     ["2018-06-20", 1113.91, 1115.7, 1108.5, 2483108596.0, 0.0],
@@ -166,17 +165,9 @@ function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
 
 const hot = new Handsontable(container, {
     data: data,
-    cells: function (row, col) {
-        var cellProperties = {};
-        var data = this.instance.getData();
-    
-        if (row === 0 || data[row] && data[row][col] === 'readOnly') {
-          cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
-        }
-        if (row === 0) {
-          cellProperties.renderer = firstRowRenderer; // uses function directly
-        }
-        return cellProperties;
-      }
+      columnSorting: true,
+      sortIndicator: true,
+      colHeaders: true,
+      rowHeaders: true,
+      colHeaders: ["Trade Date", "Index Value", "High", "Low", "Total Market Value", "Dividend Market Value"]
 });
-
