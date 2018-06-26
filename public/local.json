@@ -12,6 +12,10 @@
         "version": "beta"
     },
     "shortcut": {
+        "company": "OpenFin",
+        "description": "Openfin POC",
+        "icon": "http://localhost:8080/favicon.ico",
+        "name": "Quandl Data"
     },
     "buildInfo": {
         "prod": "talk-demo-dcchuck",
