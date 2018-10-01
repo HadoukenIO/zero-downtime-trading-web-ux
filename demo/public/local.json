@@ -1,0 +1,26 @@
+{
+    "devtools_port": 9090,
+    "startup_app": {
+        "name": "OpenfinPOC",
+        "description": "OpenFin POC",
+        "url": "http://localhost:8080",
+        "uuid": "Talk-Demo-POC",
+        "autoShow": true
+    },
+    "runtime": {
+        "arguments": "--ignore-certificate-errors",
+        "version": "beta"
+    },
+    "shortcut": {
+        "company": "OpenFin",
+        "description": "Openfin POC",
+        "icon": "http://localhost:8080/favicon.ico",
+        "name": "Quandl Data"
+    },
+    "buildInfo": {
+        "prod": "talk-demo-dcchuck",
+        "prodUrl": "http://talk-demo-dcchuck-my-test.129.146.147.219.xip.io/",
+        "uat": "talk-demo-dcchuck-uat",
+        "uatUrl": "http://talk-demo-dcchuck-uat-my-test.129.146.147.219.xip.io/"
+    }
+}
