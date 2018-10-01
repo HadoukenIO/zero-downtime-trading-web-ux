@@ -1,0 +1,3 @@
+[submodule "openshift-ws-alerts"]
+	path = openshift-ws-alerts
+	url = https://github.com/dcchuck/openshift-ws-alerts.git
