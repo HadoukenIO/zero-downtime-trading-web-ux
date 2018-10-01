@@ -1,0 +1,26 @@
+{
+  "name": "zero-downtime-trading-web-ux",
+  "version": "1.0.0",
+  "description": "Showcases how the OpenFin API, in conjunction with the ODP OpenShift Infrastructure and APIs, can create a powerful experience to live-reload an app and swap its environment from production to UAT",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcchuck/zero-downtime-trading-web-ux.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dcchuck/zero-downtime-trading-web-ux/issues"
+  },
+  "homepage": "https://github.com/dcchuck/zero-downtime-trading-web-ux#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "openfin-launcher": "^1.4.2"
+  }
+}
